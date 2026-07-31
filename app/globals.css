@@ -169,22 +169,66 @@ button {
   font-size: 1.2rem;
   color: #333;
   transition: color var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
+
 .header-actions .icon-btn:hover {
   color: var(--blue);
 }
-.header-actions .cart-badge {
-  background: var(--black);
-  color: var(--white);
-  font-size: 0.6rem;
-  padding: 2px 7px;
-  border-radius: 20px;
-  margin-left: -4px;
-}
-.mobile-toggle {
-  font-size: 1.4rem;
+
+.header-actions .chat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
   color: #333;
-  display: block;
+  transition: color var(--transition);
+}
+
+.header-actions .chat-icon:hover {
+  color: var(--blue);
+}
+
+.mobile-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #333;
+  transition: color var(--transition);
+}
+
+.mobile-toggle:hover {
+  color: var(--blue);
+}
+
+.menu-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #333;
+  transition: color var(--transition);
+}
+
+.menu-close:hover {
+  color: var(--blue);
 }
 
 /* ---------- HERO ---------- */

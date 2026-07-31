@@ -1,22 +1,34 @@
 'use client';
 import { useState } from "react";
+import { FiHome, FiShoppingBag, FiUser, FiMessageCircle } from 'react-icons/fi';
+import {FaSearch,
+  FaShoppingCart,
+  FaCommentDots,
+  FaBars,
+  FaTimes,
+  FaHome,
+  FaShoppingBag,
+  FaVenus,
+  FaMars,
+  FaUser,} from 'react-icons/fa'
+// or use FaVenus, FaMars from 'react-icons/fa'
 
 export default function HomePage() {
 
    const [menuOpen, setMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('Home');
 
-  const navItems = [
-    { key: 'Home', label: 'Home', icon: '⌂' },
-    { key: 'Shop', label: 'Shop', icon: '☰' },
-    { key: 'Women', label: 'Women', icon: '♀' },
-    { key: 'Men', label: 'Men', icon: '♂' },
-    { key: 'Unisex', label: 'Unisex', icon: '⚤' },
+ const navItems = [
+    { key: 'Home', label: 'Home', icon: FiHome },
+    { key: 'Shop', label: 'Shop', icon: FiShoppingBag },
+    { key: 'Women', label: 'Women', icon: FaVenus },
+    { key: 'Men', label: 'Men', icon: FaMars },
+    { key: 'Unisex', label: 'Unisex', icon: FiUser },
   ];
 
   return (
     <>
-           {/* TOP BAR - updated text */}
+           {/* TOP BAR */}
       <div className="top-bar">
         <div className="container">
           <span>✨</span> Order now and get 3 fragrance samples FREE! We deliver Nationwide! FREE delivery for orders that are R850 and above.
@@ -27,7 +39,7 @@ export default function HomePage() {
       {/* HEADER */}
       <header className="header">
         <div className="container header-inner">
-          <div className="logo">
+          <div className="logo letter-">
             Essence of Nature
             <small>scent your way</small>
           </div>
@@ -43,23 +55,28 @@ export default function HomePage() {
             <a href="#">News</a>
           </nav>
 
-                  <div className="header-actions">
-            <button className="icon-btn" aria-label="Search">⌕</button>
-            <button className="icon-btn" aria-label="Cart">
-              ☐
-              <span className="cart-badge">0</span>
-            </button>
-            {/* NEW: Log in (text) & Chat (icon) */}
-            <span className="login-text">Log in</span>
-            <button className="chat-icon" aria-label="Chat">💬</button>
-            <button
-              className="mobile-toggle"
-              aria-label="Menu"
-              onClick={() => setMenuOpen(true)}
-            >
-              ≡
-            </button>
-          </div>
+<div className="header-actions">
+  <button className="icon-btn" aria-label="Search">
+    <FaSearch size={20} />
+  </button>
+  <button className="icon-btn" aria-label="Cart">
+    <FaShoppingCart size={20} />
+    <span className="cart-badge">0</span>
+  </button>
+   <button className="icon-btn" aria-label="Search">
+    <FaUser size={20} />
+  </button>  
+  <button className="chat-icon" aria-label="Chat">
+    <FaCommentDots size={20} />
+  </button>
+  <button
+    className="mobile-toggle"
+    aria-label="Menu"
+    onClick={() => setMenuOpen(true)}
+  >
+    <FaBars size={24} />
+  </button>
+</div>
         </div>
       </header>
 
@@ -404,17 +421,22 @@ export default function HomePage() {
 
          {/* BOTTOM NAVIGATION (mobile only) */}
       <div className="bottom-nav">
-        {navItems.map((item) => (
-          <button
-            key={item.key}
-            className={`nav-item ${activeTab === item.key ? 'active' : ''}`}
-            onClick={() => setActiveTab(item.key)}
-          >
-            <span className="nav-icon">{item.icon}</span>
-            <span className="nav-label">{item.label}</span>
-          </button>
-        ))}
-      </div>
+  {navItems.map((item) => {
+    const Icon = item.icon;
+    return (
+      <button
+        key={item.key}
+        className={`nav-item ${activeTab === item.key ? 'active' : ''}`}
+        onClick={() => setActiveTab(item.key)}
+      >
+        <span className="nav-icon">
+          <Icon size={20} />
+        </span>
+        <span className="nav-label">{item.label}</span>
+      </button>
+    );
+  })}
+</div>
     </>
   );
 }

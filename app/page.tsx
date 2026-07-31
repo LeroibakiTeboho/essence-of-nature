@@ -40,8 +40,8 @@ export default function HomePage() {
       <header className="header">
         <div className="container header-inner">
           <div className="logo letter-">
-            Essence of Nature
-            <small>scent your way</small>
+            EN
+            {/* <small>scent your way</small> */}
           </div>
 
           <nav className="nav-desktop">
@@ -279,7 +279,7 @@ export default function HomePage() {
       </section> */}
 
       {/* EXCLUSIVE SETS */}
-      <section className="exclusive-section">
+      {/* <section className="exclusive-section">
         <div className="container">
           <div style={{ textAlign: 'center', marginBottom: '32px' }}>
             <span className="section-label">Online Exclusive</span>
@@ -324,7 +324,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* DISCOVER / INSPIRATION */}
       <section className="discover-section">

@@ -3,7 +3,7 @@ import './globals.css';
 
 
 export const metadata: Metadata = {
-  title: 'Baccarat Rouge 540 · Essence of Nature',
+  title: 'Essence of Nature',
   description: 'Discover the Baccarat Rouge 540 collection – where nature meets excellence.',
 };
 

@@ -1,16 +1,9 @@
 'use client';
 import { useState } from "react";
 import { FiHome, FiShoppingBag, FiUser, FiMessageCircle } from 'react-icons/fi';
-import {FaSearch,
-  FaShoppingCart,
-  FaCommentDots,
-  FaBars,
-  FaTimes,
-  FaHome,
-  FaShoppingBag,
-  FaVenus,
-  FaMars,
-  FaUser,} from 'react-icons/fa'
+import {FaSearch, FaShoppingCart, FaCommentDots, FaBars, FaTimes,
+  FaHome, FaShoppingBag, FaVenus, FaMars, FaUser,
+  FaInstagram, FaTiktok, FaFacebook, FaYoutube } from 'react-icons/fa'
 // or use FaVenus, FaMars from 'react-icons/fa'
 
 export default function HomePage() {
@@ -80,24 +73,34 @@ export default function HomePage() {
         </div>
       </header>
 
-       {/* MOBILE DRAWER */}
-      {menuOpen && (
-        <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
-          <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
-            <button className="menu-close" onClick={() => setMenuOpen(false)}>✕</button>
-            <nav className="drawer-nav">
-              <a href="#" onClick={() => setMenuOpen(false)}>Home</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>Shop All</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>Women</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>Men</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>Unisex</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>About Us</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>Contact</a>
-              <a href="#" onClick={() => setMenuOpen(false)}>News</a>
-            </nav>
-          </div>
-        </div>
-      )}
+{menuOpen && (
+  <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
+    <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
+      <button className="menu-close" onClick={() => setMenuOpen(false)}>
+        <FaTimes size={24} />
+      </button>
+      
+      <nav className="drawer-nav">
+        <a href="#" onClick={() => setMenuOpen(false)}>Home</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>Shop All</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>Women</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>Men</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>Unisex</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>About Us</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>Contact</a>
+        <a href="#" onClick={() => setMenuOpen(false)}>News</a>
+      </nav>
+
+      {/* NEW: Social Icons at bottom */}
+      <div className="drawer-social">
+        <a href="#" aria-label="Instagram"><FaInstagram size={20} /></a>
+        <a href="#" aria-label="TikTok"><FaTiktok size={20} /></a>
+        <a href="#" aria-label="Facebook"><FaFacebook size={20} /></a>
+        <a href="#" aria-label="YouTube"><FaYoutube size={20} /></a>
+      </div>
+    </div>
+  </div>
+)}
 
       {/* HERO */}
       <section className="hero">
@@ -108,9 +111,7 @@ export default function HomePage() {
              Timeless Scents, Endless Elegance
             </h1>
             <p>
-              The combined magic of Nature and Man, transforming raw materials into an
-              inimitable object of pleasure. Baccarat Rouge 540 seals the meeting of two
-              emblems of excellence.
+            Inspired by nature, crafted for unforgettable moments.
             </p>
             <a href="#" className="btn-primary">Discover</a>
             <div className="hero-badge">
@@ -127,8 +128,7 @@ export default function HomePage() {
           <span className="section-label">Essence of Nature · South Africa</span>
           <h2 className="section-title">Baccarat Rouge 540</h2>
           <p className="section-sub">
-            The essence of nature and artistry come together to transform the finest ingredients into unforgettable fragrances. Discover perfumes for men, women, and everyone who appreciates timeless scents.
-          </p>
+           Crafted with nature's finest ingredients for every fragrance lover.          </p>
           <div className="gold-rule"></div>
         </div>
       </section>

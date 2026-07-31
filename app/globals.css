@@ -853,6 +853,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  
 }
 
 .drawer-nav a {
@@ -872,6 +873,34 @@ button {
 
 .drawer-nav a:last-child {
   border-bottom: none;
+}
+
+/* ---------- DRAWER SOCIAL ICONS ---------- */
+.menu-drawer {
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer-nav {
+  flex: 1; /* pushes social icons to the bottom */
+}
+
+.drawer-social {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 20px 0 8px 0;
+  border-top: 1px solid var(--gray-light);
+  margin-top: 16px;
+}
+
+.drawer-social a {
+  color: #2b2b2b;
+  transition: color var(--transition);
+}
+
+.drawer-social a:hover {
+  color: var(--blue);
 }
 
 /* ---------- MOBILE HEADER ACTIONS ---------- */

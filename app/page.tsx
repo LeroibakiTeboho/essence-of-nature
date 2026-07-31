@@ -1,12 +1,28 @@
+'use client';
+import { useState } from "react";
+
 export default function HomePage() {
+
+   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
+
+  const navItems = [
+    { key: 'Home', label: 'Home', icon: '⌂' },
+    { key: 'Shop', label: 'Shop', icon: '☰' },
+    { key: 'Women', label: 'Women', icon: '♀' },
+    { key: 'Men', label: 'Men', icon: '♂' },
+    { key: 'Unisex', label: 'Unisex', icon: '⚤' },
+  ];
+
   return (
     <>
-      {/* TOP BAR */}
+           {/* TOP BAR - updated text */}
       <div className="top-bar">
         <div className="container">
-          <span>EXCLUSIVE</span> · Discover the new OUD velvet mood fragrance in your order
+          <span>✨</span> Order now and get 3 fragrance samples FREE! We deliver Nationwide! FREE delivery for orders that are R850 and above.
         </div>
       </div>
+
 
       {/* HEADER */}
       <header className="header">
@@ -18,7 +34,7 @@ export default function HomePage() {
 
           <nav className="nav-desktop">
             <a href="#">Home</a>
-            <a href="#">Shop All</a>
+            <a href="#">Shop</a>
             <a href="#">Women</a>
             <a href="#">Men</a>
             <a href="#">Unisex</a>
@@ -27,26 +43,52 @@ export default function HomePage() {
             <a href="#">News</a>
           </nav>
 
-          <div className="header-actions">
+                  <div className="header-actions">
             <button className="icon-btn" aria-label="Search">⌕</button>
-            <button className="icon-btn" aria-label="Account">○</button>
             <button className="icon-btn" aria-label="Cart">
               ☐
               <span className="cart-badge">0</span>
             </button>
-            <button className="mobile-toggle" aria-label="Menu">≡</button>
+            {/* NEW: Log in (text) & Chat (icon) */}
+            <span className="login-text">Log in</span>
+            <button className="chat-icon" aria-label="Chat">💬</button>
+            <button
+              className="mobile-toggle"
+              aria-label="Menu"
+              onClick={() => setMenuOpen(true)}
+            >
+              ≡
+            </button>
           </div>
         </div>
       </header>
+
+       {/* MOBILE DRAWER */}
+      {menuOpen && (
+        <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
+          <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
+            <button className="menu-close" onClick={() => setMenuOpen(false)}>✕</button>
+            <nav className="drawer-nav">
+              <a href="#" onClick={() => setMenuOpen(false)}>Home</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>Shop All</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>Women</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>Men</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>Unisex</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>About Us</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>Contact</a>
+              <a href="#" onClick={() => setMenuOpen(false)}>News</a>
+            </nav>
+          </div>
+        </div>
+      )}
 
       {/* HERO */}
       <section className="hero">
         <div className="container hero-inner">
           <div className="hero-content">
-            <span className="pre-title">Essence of Nature · Paris</span>
+            <span className="pre-title">Essence of Nature · South Africa</span>
             <h1>
-              Baccarat
-              <span className="gold-text">Rouge 540</span>
+             Timeless Scents, Endless Elegance
             </h1>
             <p>
               The combined magic of Nature and Man, transforming raw materials into an
@@ -65,105 +107,109 @@ export default function HomePage() {
       {/* COLLECTION INTRO */}
       <section className="collection-intro">
         <div className="container">
-          <span className="section-label">Essence of Nature · Paris</span>
+          <span className="section-label">Essence of Nature · South Africa</span>
           <h2 className="section-title">Baccarat Rouge 540</h2>
           <p className="section-sub">
-            The combined magic of Nature and Man, transforming raw materials into an
-            inimitable object of pleasure. Baccarat Rouge 540 seals the meeting of two
-            emblems of excellence.
+            The essence of nature and artistry come together to transform the finest ingredients into unforgettable fragrances. Discover perfumes for men, women, and everyone who appreciates timeless scents.
           </p>
           <div className="gold-rule"></div>
         </div>
       </section>
 
-      {/* PRODUCTS GRID */}
+   {/* PRODUCTS GRID */}
       <section className="products-section">
         <div className="container">
           <div className="filter-tabs">
-            <span className="active">Perfumes</span>
+            <span className="active">Unisex</span>
             <span>·</span>
-            <span>Bath &amp; Body</span>
+            <span>men</span>
             <span>·</span>
-            <span>Duo &amp; Trio</span>
-            <span>·</span>
-            <span>Travel &amp; Art of Living</span>
+            <span>women</span>           
           </div>
 
           <div className="products-grid">
+            {/* Replace the src paths with your actual image filenames */}
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-1.png" alt="Baccarat Rouge 540 Eau de parfum 70ml" />
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
-              <div className="product-variant">Eau de parfum 70ml</div>
-              <div className="product-price">€ 240</div>
+              <div className="product-variant">Eau de parfume 70ml</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-2.png" alt="Baccarat Rouge 540 Extrait de parfum 70ml" />
                 <span className="badge-exclusive">Exclusive</span>
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Extrait de parfum 70ml</div>
-              <div className="product-price">€ 390</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-1.png" alt="Baccarat Rouge 540 Extrait de parfum 35ml" />
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Extrait de parfum 35ml</div>
-              <div className="product-price">€ 220</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-2.png" alt="Baccarat Rouge 540 Extrait de parfum 200ml" />
                 <span className="badge-exclusive">Exclusive</span>
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Extrait de parfum 200ml</div>
-              <div className="product-price">€ 850</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-1.png" alt="Baccarat Rouge 540 Eau de parfum 200ml" />
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Eau de parfum 200ml</div>
-              <div className="product-price">€ 540</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-2.png" alt="Baccarat Rouge 540 Eau de parfum 35ml" />
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Eau de parfum 35ml</div>
-              <div className="product-price">€ 150</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-1.png" alt="Baccarat Rouge 540 Scented ritual coffret" />
                 <span className="badge-new">New</span>
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Scented ritual coffret 3×35ml</div>
-              <div className="product-price">€ 420</div>
+              <div className="product-price">R 850</div>
             </div>
+
             <div className="product-card">
               <div className="product-image">
-                <span className="placeholder-icon">🧴</span>
+                <img src="/product-2.png" alt="Baccarat Rouge 540 Hair perfume 70ml" />
                 <span className="badge-new">New</span>
               </div>
               <div className="product-name">Baccarat Rouge 540</div>
               <div className="product-variant">Hair perfume 70ml</div>
-              <div className="product-price">€ 120</div>
+              <div className="product-price">R 850</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* BATH & BODY */}
-      <section className="body-care-section">
+      {/* <section className="body-care-section">
         <div className="container">
           <div className="section-header">
             <span className="section-label">Bath &amp; Body</span>
@@ -213,7 +259,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* EXCLUSIVE SETS */}
       <section className="exclusive-section">
@@ -227,37 +273,37 @@ export default function HomePage() {
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Perfumed Oil · Eau de Parfum Duo</div>
-              <div className="excl-price">€ 220</div>
+              <div className="excl-price">R 850</div>
             </div>
             <div className="exclusive-card">
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Scented Soap · Eau de Parfum Duo</div>
-              <div className="excl-price">€ 180</div>
+              <div className="excl-price">R 850</div>
             </div>
             <div className="exclusive-card">
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Travel Set 5×11ml</div>
-              <div className="excl-price">€ 95</div>
+              <div className="excl-price">R 850</div>
             </div>
             <div className="exclusive-card">
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Globe Trotter · Extrait de Parfum Duo</div>
-              <div className="excl-price">€ 550</div>
+              <div className="excl-price">R 850</div>
             </div>
             <div className="exclusive-card">
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Globe Trotter · Eau de Parfum Duo</div>
-              <div className="excl-price">€ 390</div>
+              <div className="excl-price">R 850</div>
             </div>
             <div className="exclusive-card">
               <span className="excl-badge">Online Exclusive</span>
               <div className="excl-title">Baccarat Rouge 540</div>
               <div className="excl-sub">Trio · Gel, Body Oil &amp; Hair Perfume</div>
-              <div className="excl-price">€ 210</div>
+              <div className="excl-price">R 850</div>
             </div>
           </div>
         </div>
@@ -355,6 +401,20 @@ export default function HomePage() {
           </div>
         </div>
       </footer>
+
+         {/* BOTTOM NAVIGATION (mobile only) */}
+      <div className="bottom-nav">
+        {navItems.map((item) => (
+          <button
+            key={item.key}
+            className={`nav-item ${activeTab === item.key ? 'active' : ''}`}
+            onClick={() => setActiveTab(item.key)}
+          >
+            <span className="nav-icon">{item.icon}</span>
+            <span className="nav-label">{item.label}</span>
+          </button>
+        ))}
+      </div>
     </>
   );
 }

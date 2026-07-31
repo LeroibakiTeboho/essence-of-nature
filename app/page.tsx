@@ -40,7 +40,7 @@ export default function HomePage() {
       <header className="header">
         <div className="container header-inner">
           <div className="logo letter-">
-            logo
+            EN
             {/* <small>scent your way</small> */}
           </div>
 
@@ -55,26 +55,26 @@ export default function HomePage() {
             <a href="#">News</a>
           </nav>
 
-<div className="header-actions">
+<div className="header-actions font-light">
   <button className="icon-btn" aria-label="Search">
-    <FaSearch size={20} />
+    <FaSearch size={15} />
   </button>
   <button className="icon-btn" aria-label="Cart">
-    <FaShoppingCart size={20} />
+    <FaShoppingCart size={15} />
     <span className="cart-badge">0</span>
   </button>
    <button className="icon-btn" aria-label="Search">
-    <FaUser size={20} />
+    <FaUser size={15} />
   </button>  
   <button className="chat-icon" aria-label="Chat">
-    <FaCommentDots size={20} />
+    <FaCommentDots size={15} />
   </button>
   <button
     className="mobile-toggle"
     aria-label="Menu"
     onClick={() => setMenuOpen(true)}
   >
-    <FaBars size={24} />
+    <FaBars size={20} />
   </button>
 </div>
         </div>

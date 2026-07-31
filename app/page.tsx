@@ -40,7 +40,7 @@ export default function HomePage() {
       <header className="header">
         <div className="container header-inner">
           <div className="logo letter-">
-            EN
+            logo
             {/* <small>scent your way</small> */}
           </div>
 

@@ -2,7 +2,7 @@
 
 import { Inngest } from "inngest";
 import connectDB from "./db";
-import User from "../models/User";
+import User from "@/models/User";
 
 export const inngest = new Inngest({
   id: "essence-of-nature-next",

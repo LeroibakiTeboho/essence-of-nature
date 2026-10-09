@@ -20,8 +20,12 @@ const productSchema = new mongoose.Schema({
     required: true,
   },
   images: {
-    type: Array,
+    type: [String],
     required: true,
+    validate: {
+      validator: (images) => images.length > 0,
+      message: "At least one product image is required.",
+    },
   },
 
   category: {

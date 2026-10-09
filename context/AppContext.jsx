@@ -120,7 +120,7 @@ export const AppContextProvider = (props) => {
   // Fetch user data when Clerk user becomes available
   useEffect(() => {
     if (user) {
-      fetchUserData();
+      // fetchUserData(); this will be fixed soon!
     }
   }, [user]);
 

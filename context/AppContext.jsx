@@ -21,7 +21,7 @@ export const AppContextProvider = (props) => {
   const { getToken } = useAuth();
 
   // Products
-  const [products, setProducts] = useState(productsDummyData);
+  const [products, setProducts] = useState([]);
 
   // User data
   const [userData, setUserData] = useState(false);
@@ -32,29 +32,36 @@ export const AppContextProvider = (props) => {
   // Cart
   const [cartItems, setCartItems] = useState({});
 
-  // Fetch product data from the database or API
+  // ─────────────────────────────────────────────────────────────
+  // Fetch product data (also exposed for manual refresh)
+  // ─────────────────────────────────────────────────────────────
   const fetchProductData = async () => {
     try {
-      // Later, fetch products from your API/database here
-      setProducts(productsDummyData);
+      const { data } = await axios.get("/api/product/list");
+      if (data.success) {
+        setProducts(data.products);
+      } else {
+        toast.error(data.message);
+      }
     } catch (error) {
       console.error("Error fetching product data:", error);
     }
   };
 
-  // Fetch user data from the database or API
+  // ─────────────────────────────────────────────────────────────
+  // Fetch user data (exposed so components can trigger a refresh,
+  // e.g. after checkout)
+  // ─────────────────────────────────────────────────────────────
   const fetchUserData = async () => {
+    if (!user) return;
     try {
-      if (!user) return;
-
       const token = await getToken();
       const { data } = await axios.get("/api/user/data", {
         headers: { Authorization: `Bearer ${token}` },
       });
-
       if (data.success) {
         setUserData(data.user);
-        setCartItems(data.user, cartItems);
+        setCartItems(data.user.cartItems || {});
       } else {
         toast.error(data.message);
       }
@@ -63,66 +70,154 @@ export const AppContextProvider = (props) => {
     }
   };
 
-  // Add product to cart
-  const addToCart = async (itemId) => {
-    const cartData = structuredClone(cartItems);
+  // ─────────────────────────────────────────────────────────────
+  // Cart actions
+  // ─────────────────────────────────────────────────────────────
+const addToCart = async (itemId) => {
+  // Functional update removes the stale-closure risk
+  let nextCart;
+  setCartItems((prev) => {
+    nextCart = structuredClone(prev);
+    nextCart[itemId] = (nextCart[itemId] || 0) + 1;
+    return nextCart;
+  });
 
-    if (cartData[itemId]) {
-      cartData[itemId] += 1;
-    } else {
-      cartData[itemId] = 1;
-    }
+  if (!user) return;
 
-    setCartItems(cartData);
-  };
+  try {
+    const token = await getToken();
+    const { data } = await axios.post(
+      "/api/cart/update",
+      { cartData: nextCart },
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (!data.success) throw new Error(data.message);
+    toast.success("Item added to cart");
+  } catch (error) {
+    // Roll back optimistic update so UI matches DB
+    setCartItems((prev) => {
+      const rolledBack = structuredClone(prev);
+      if (rolledBack[itemId] > 1) rolledBack[itemId] -= 1;
+      else delete rolledBack[itemId];
+      return rolledBack;
+    });
+    toast.error(
+      error?.response?.data?.message ||
+        error.message ||
+        "An error occurred while updating the cart.",
+    );
+  }
+};
 
-  // Update cart quantity
-  const updateCartQuantity = async (itemId, quantity) => {
-    const cartData = structuredClone(cartItems);
+const updateCartQuantity = async (itemId, quantity) => {
+  let nextCart;
+  setCartItems((prev) => {
+    nextCart = structuredClone(prev);
+    if (quantity <= 0) delete nextCart[itemId];
+    else nextCart[itemId] = quantity;
+    return nextCart;
+  });
 
-    if (quantity === 0) {
-      delete cartData[itemId];
-    } else {
-      cartData[itemId] = quantity;
-    }
+  if (!user) return;
 
-    setCartItems(cartData);
-  };
+  try {
+    const token = await getToken();
+    const { data } = await axios.post(
+      "/api/cart/update",
+      { cartData: nextCart },
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    if (!data.success) throw new Error(data.message);
+  } catch (error) {
+    toast.error(
+      error?.response?.data?.message ||
+        error.message ||
+        "An error occurred while updating the cart.",
+    );
+    // Optional: re-fetch from server to resync
+    // await fetchUserData();
+  }
+};
 
-  // Get total number of items in cart
   const getCartCount = () => {
     let totalCount = 0;
-
     for (const item in cartItems) {
       if (cartItems[item] > 0) {
         totalCount += cartItems[item];
       }
     }
-
     return totalCount;
   };
 
-  // Get total cart amount
   const getCartAmount = () => {
     let totalAmount = 0;
-
     for (const item in cartItems) {
       const itemInfo = products.find((product) => product._id === item);
-
       if (itemInfo && cartItems[item] > 0) {
         totalAmount += itemInfo.offerPrice * cartItems[item];
       }
     }
-
     return Math.floor(totalAmount * 100) / 100;
   };
 
-  // Fetch user data when Clerk user becomes available
+  // ─────────────────────────────────────────────────────────────
+  // Effect: fetch products on mount
+  // (async IIFE keeps setState out of the synchronous effect body)
+  // ─────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (user) {
-      // fetchUserData(); this will be fixed soon!
-    }
-  }, [user]);
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const { data } = await axios.get("/api/product/list");
+        if (cancelled) return;
+        if (data.success) {
+          setProducts(data.products);
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        console.error("Error fetching product data:", error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // ─────────────────────────────────────────────────────────────
+  // Effect: fetch user data when Clerk user becomes available
+  // ─────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!user) return;
+
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const token = await getToken();
+        const { data } = await axios.get("/api/user/data", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (cancelled) return;
+
+        if (data.success) {
+          setUserData(data.user);
+          setCartItems(data.user.cartItems || {});
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        toast.error(error.message);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user, getToken]);
 
   const value = {
     user,

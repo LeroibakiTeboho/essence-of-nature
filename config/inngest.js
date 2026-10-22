@@ -130,7 +130,7 @@ export const createUserOrder = inngest.createFunction(
     // 👇 trigger moved INTO the options object
     triggers: { event: "order/created" },
     // batching config stays where it was
-    batchEvents: { maxSize: 25, timeout: "5s" },
+    batchEvents: { maxSize: 5, timeout: "5s" },
   },
   async ({ events }) => {
     const orders = events.map((event) => ({

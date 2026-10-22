@@ -3,9 +3,11 @@
 import { Inngest } from "inngest";
 import connectDB from "./db";
 import User from "@/models/User";
+import Order from "@/models/Order";
 
 export const inngest = new Inngest({
   id: "essence-of-nature-next",
+  isDev: process.env.NODE_ENV !== "production", // avoids "signing key required" locally
 });
 
 // ----------------------------------------
@@ -115,5 +117,33 @@ export const syncUserDelete = inngest.createFunction(
     await User.findByIdAndDelete(id);
 
     console.log(`User deleted: ${id}`);
+  },
+);
+
+// ----------------------------------------
+// Ingest Function to create user's order in database
+// ----------------------------------------
+
+export const createUserOrder = inngest.createFunction(
+  {
+    id: "create-user-order",
+    // 👇 trigger moved INTO the options object
+    triggers: { event: "order/created" },
+    // batching config stays where it was
+    batchEvents: { maxSize: 25, timeout: "5s" },
+  },
+  async ({ events }) => {
+    const orders = events.map((event) => ({
+      userId: event.data.userId,
+      items: event.data.items,
+      amount: event.data.amount,
+      address: event.data.address,
+      date: event.data.date,
+    }));
+
+    await connectDB();
+    await Order.insertMany(orders);
+
+    return { success: true, message: "Orders created successfully" };
   },
 );
